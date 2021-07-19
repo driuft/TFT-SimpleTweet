@@ -26,6 +26,7 @@ public class TimelineActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     // Instance of the progress action-view
     static MenuItem miActionProgressItem;
+    static MenuItem miLogout;
     FloatingActionButton compose;
 
     @Override
@@ -41,6 +42,7 @@ public class TimelineActivity extends AppCompatActivity {
 
         // ActivityTimelineBinding binding = ActivityTimelineBinding.inflate(getLayoutInflater());
         miActionProgressItem = findViewById(R.id.miActionProgress);
+
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         compose = findViewById(R.id.compose);
 
@@ -93,13 +95,21 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.miLogout:
+                onLogout();
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Store instance of the menu item containing progress
         miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        miLogout = menu.findItem(R.id.miLogout);
         return true;
     }
 
@@ -113,4 +123,15 @@ public class TimelineActivity extends AppCompatActivity {
         miActionProgressItem.setVisible(false);
     }
 
+    // Clear the access token when clicked on logout button (which is part of the menu)
+    public void onLogout() {
+        // forget who's logged in
+        TwitterApp.getRestClient(this).clearAccessToken();
+
+        // navigate backwards to Login screen
+        Intent i = new Intent(this, LoginActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // this makes sure the Back button won't work
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // same as above
+        startActivity(i);
+    }
 }
