@@ -25,6 +25,7 @@ public class Tweet {
     public String createdAt;
     public User user;
     public String mediaUrl;
+    public String videoUrl;
     public long id;
     public int retweets;
     public int favorites;
@@ -50,9 +51,22 @@ public class Tweet {
             JSONObject extendedEntitites = object.getJSONObject("extended_entities");
             JSONArray jsonArray = extendedEntitites.getJSONArray("media");
             JSONObject media = jsonArray.getJSONObject(0);
-            tweet.mediaUrl = String.format("%s:large",media.getString("media_url_https"));
-        }
-        else{
+            if (media.has("type")) {
+                String type = media.getString("type");
+                if (type.equals("photo")) {
+                    tweet.mediaUrl = String.format("%s:large",media.getString("media_url_https"));
+                } else if (type.equals("animated_gif")) {
+                    tweet.mediaUrl = String.format("%s:large",media.getString("media_url_https"));
+                } else if (type.equals("video")) {
+                    JSONObject videoInfo = media.getJSONObject("video_info");
+                    JSONArray variants = videoInfo.getJSONArray("variants");
+                    JSONObject url = variants.getJSONObject(1);
+                    tweet.videoUrl = url.getString("url");
+                    Log.d("video", tweet.videoUrl);
+                }
+            }
+        } else {
+            tweet.videoUrl = "";
             tweet.mediaUrl = "";
         }
 

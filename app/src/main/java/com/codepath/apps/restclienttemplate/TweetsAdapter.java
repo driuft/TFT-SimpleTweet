@@ -3,13 +3,16 @@ package com.codepath.apps.restclienttemplate;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -72,7 +75,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivProfilepic;
         ImageView ivUrl;
         ImageButton ibRetweet;
+        TextView tvRetweets;
         ImageButton ibLike;
+        TextView tvLikes;
         ImageButton ibReply;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
@@ -85,7 +90,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
             ivUrl = itemView.findViewById(R.id.ivUrl);
             ibRetweet = itemView.findViewById(R.id.ibRetweet);
+            tvRetweets = itemView.findViewById(R.id.tvRetweets);
             ibLike = itemView.findViewById(R.id.ibLike);
+            tvLikes = itemView.findViewById(R.id.tvLikes);
             ibReply = itemView.findViewById(R.id.ibReply);
         }
 
@@ -98,13 +105,13 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     .circleCrop()
                     .into(ivProfilepic);
             tvTimestamp.setText(Tweet.getRelativeTimeAgo(tweet.createdAt));
+            tvRetweets.setText(Integer.toString(tweet.retweets));
+            tvLikes.setText(Integer.toString(tweet.favorites));
 
             if (tweet.mediaUrl != "") {
                 ivUrl.setVisibility(View.VISIBLE);
                 Glide.with(context)
                         .load(tweet.mediaUrl)
-                        .fitCenter()
-                        .override(640, 360)
                         .transform(new RoundedCorners(25))
                         .into(ivUrl);
             } else {
@@ -147,6 +154,17 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 ibLike.setImageResource(R.drawable.ic_vector_heart);
                 ibLike.getDrawable().setTint(Color.RED);
             }
+
+        }
+
+        private void loadVideo() {
+            VideoView videoView = (VideoView) itemView.findViewById(R.id.videoView);
+            MediaController mediaController = new MediaController(context);
+            mediaController.setAnchorView(videoView);
+            Uri video = Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4");
+            videoView.setMediaController(mediaController);
+            videoView.setVideoURI(video);
+            videoView.start();
         }
     }
 }

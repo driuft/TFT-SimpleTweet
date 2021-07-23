@@ -85,6 +85,18 @@
         android:layout_marginEnd="5dp"
         android:layout_toEndOf="@+id/ivProfilepic"
         android:scaleType="fitXY"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_below="@+id/tvBody"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="5dp"
+        android:layout_toEndOf="@+id/ivProfilepic"
+        android:scaleType="fitXY"
         android:visibility="gone"
         tools:srcCompat="@tools:sample/avatars"
         tools:visibility="gone" />
@@ -104,6 +116,15 @@
         app:srcCompat="@drawable/ic_vector_heart_stroke"
         app:tint="@color/button_color" />
 
+    <TextView
+        android:id="@+id/tvLikes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/ibLike"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/ibLike"
+        tools:text="50" />
+
     <ImageButton
         android:id="@+id/ibRetweet"
         android:layout_width="wrap_content"
@@ -117,6 +138,15 @@
         android:scaleY="0.7"
         app:srcCompat="@drawable/ic_vector_retweet_stroke"
         app:tint="@color/button_color" />
+
+    <TextView
+        android:id="@+id/tvRetweets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/ibRetweet"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/ibRetweet"
+        tools:text="50" />
 
     <ImageButton
         android:id="@+id/ibReply"
